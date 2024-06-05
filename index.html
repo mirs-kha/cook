@@ -162,10 +162,11 @@
         }
 
         function printTable() {
-            const printContents = document.getElementById('recipesTable').outerHTML;
+            const lunchTable = document.getElementById('lunchTable').outerHTML;
+            const dinnerTable = document.getElementById('dinnerTable').outerHTML;
             const originalContents = document.body.innerHTML;
 
-            document.body.innerHTML = printContents;
+            document.body.innerHTML = lunchTable + dinnerTable;
             window.print();
             document.body.innerHTML = originalContents;
 
