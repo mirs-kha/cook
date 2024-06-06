@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="image-container">
                     <img src="${recipe.imageURL}" alt="${recipe.name}">
                 </div>
-                <button class="remove-button" data-index="${index}">Supprimer</button>
+                <button class="remove-button" data-index="${index}" data-table="${recipesRow.id}">Supprimer</button>
             `;
             recipesRow.appendChild(recipeCell);
         });
@@ -66,12 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
             emptyCell.innerHTML = `<h3>Pas de recette</h3>`;
             recipesRow.appendChild(emptyCell);
         }
+
+        attachRemoveEventHandlers();
     }
 
     function removeRecipe(event) {
         const button = event.target;
         const index = button.getAttribute('data-index');
-        const isLunchTable = button.closest('tbody').id === 'lunchRecipesRow';
+        const tableId = button.getAttribute('data-table');
+        const isLunchTable = tableId === 'lunchRecipesRow';
         const remainingRecipes = isLunchTable ? remainingLunchRecipes : remainingDinnerRecipes;
         const recipesList = isLunchTable ? lunchRecipesList : dinnerRecipesList;
 
@@ -86,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         remainingRecipes.splice(newIndex, 1);
 
         displayRecipes(recipesList, document.getElementById(isLunchTable ? 'lunchRecipesRow' : 'dinnerRecipesRow'));
-        attachRemoveEventHandlers();
     }
 
     function switchSeason() {
@@ -120,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displayRecipes(lunchRecipesList, lunchRecipesRow);
         displayRecipes(dinnerRecipesList, dinnerRecipesRow);
-        attachRemoveEventHandlers();
     }
 
     function printTable() {
@@ -157,8 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (refreshButton) refreshButton.addEventListener('click', () => window.location.reload());
         if (printButton) printButton.addEventListener('click', printTable);
         if (namesButton) namesButton.addEventListener('click', printRecipeNames);
-
-        attachRemoveEventHandlers();
     }
 
     fetch('assets/js/file.json')
