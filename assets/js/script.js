@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="image-container">
                     <img src="${recipe.imageURL}" alt="${recipe.name}">
                 </div>
-                <button class="remove-button" data-index="${index}" data-table="${recipesRow.id}">Supprimer</button>
+                <button class="remove-button" data-index="${index}">Supprimer</button>
             `;
             recipesRow.appendChild(recipeCell);
         });
@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeRecipe(event) {
         const button = event.target;
-        const index = button.getAttribute('data-index');
-        const tableId = button.getAttribute('data-table');
-        const isLunchTable = tableId === 'lunchRecipesRow';
+        const index = parseInt(button.getAttribute('data-index'));
+        const isLunchTable = button.closest('tbody').id === 'lunchRecipesRow';
         const remainingRecipes = isLunchTable ? remainingLunchRecipes : remainingDinnerRecipes;
         const recipesList = isLunchTable ? lunchRecipesList : dinnerRecipesList;
 
