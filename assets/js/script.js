@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         remainingRecipes.splice(newIndex, 1);
 
         displayRecipes(recipesList, document.getElementById(isLunchTable ? 'lunchRecipesRow' : 'dinnerRecipesRow'));
+        attachRemoveEventHandlers();
     }
 
     function switchSeason() {
@@ -119,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displayRecipes(lunchRecipesList, lunchRecipesRow);
         displayRecipes(dinnerRecipesList, dinnerRecipesRow);
+        attachRemoveEventHandlers();
     }
 
     function printTable() {
@@ -144,16 +146,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function attachEventHandlers() {
-        seasonSwitchButton.addEventListener('click', switchSeason);
-        refreshButton.addEventListener('click', () => window.location.reload());
-        printButton.addEventListener('click', printTable);
-        namesButton.addEventListener('click', printRecipeNames);
-
-        // Attach remove event handlers
+    function attachRemoveEventHandlers() {
         document.querySelectorAll('.remove-button').forEach(button => {
             button.addEventListener('click', removeRecipe);
         });
+    }
+
+    function attachEventHandlers() {
+        if (seasonSwitchButton) seasonSwitchButton.addEventListener('click', switchSeason);
+        if (refreshButton) refreshButton.addEventListener('click', () => window.location.reload());
+        if (printButton) printButton.addEventListener('click', printTable);
+        if (namesButton) namesButton.addEventListener('click', printRecipeNames);
+
+        attachRemoveEventHandlers();
     }
 
     fetch('assets/js/file.json')
