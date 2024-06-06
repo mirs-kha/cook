@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const seasonSwitchButton = document.getElementById('season-switch');
     const refreshButton = document.getElementById('refresh-button');
     const printButton = document.getElementById('print-button');
-
+    const namesButton = document.getElementById('names-button');
     const seasonIndicator = document.getElementById('seasonIndicator');
     const lunchRecipesRow = document.getElementById('lunchRecipesRow');
     const dinnerRecipesRow = document.getElementById('dinnerRecipesRow');
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="image-container">
                     <img src="${recipe.imageURL}" alt="${recipe.name}">
                 </div>
-                <button class="remove-button" onclick="removeRecipe('${recipesRow.id}', ${index})">Supprimer</button>
+                <button class="remove-button" data-index="${index}">Supprimer</button>
             `;
             recipesRow.appendChild(recipeCell);
         });
@@ -68,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function removeRecipe(tableId, index) {
-        const isLunchTable = tableId === 'lunchRecipesRow';
+    function removeRecipe(event) {
+        const button = event.target;
+        const index = button.getAttribute('data-index');
+        const isLunchTable = button.closest('tbody').id === 'lunchRecipesRow';
         const remainingRecipes = isLunchTable ? remainingLunchRecipes : remainingDinnerRecipes;
         const recipesList = isLunchTable ? lunchRecipesList : dinnerRecipesList;
 
@@ -83,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newIndex = remainingRecipes.indexOf(newRecipe);
         remainingRecipes.splice(newIndex, 1);
 
-        displayRecipes(recipesList, document.getElementById(tableId));
+        displayRecipes(recipesList, document.getElementById(isLunchTable ? 'lunchRecipesRow' : 'dinnerRecipesRow'));
     }
 
     function switchSeason() {
@@ -131,13 +133,27 @@ document.addEventListener('DOMContentLoaded', () => {
         attachEventHandlers();
     }
 
+    function printRecipeNames() {
+        listRepas.innerHTML = ''; // Clear the list first
 
+        const sortedRecipes = [...allRecipes].sort((a, b) => a.name.localeCompare(b.name));
+        sortedRecipes.forEach(recipe => {
+            const nameElement = document.createElement('p');
+            nameElement.textContent = recipe.name;
+            listRepas.appendChild(nameElement);
+        });
+    }
 
     function attachEventHandlers() {
         seasonSwitchButton.addEventListener('click', switchSeason);
         refreshButton.addEventListener('click', () => window.location.reload());
         printButton.addEventListener('click', printTable);
+        namesButton.addEventListener('click', printRecipeNames);
 
+        // Attach remove event handlers
+        document.querySelectorAll('.remove-button').forEach(button => {
+            button.addEventListener('click', removeRecipe);
+        });
     }
 
     fetch('assets/js/file.json')
