@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Post Creator</title>
+    <link rel="stylesheet" href="assets/css/stylevideo.css">
+</head>
+<body>
+    <div id="canvas" style="width: 600px; height: 400px;">
+        <!-- The main area where the elements will be placed -->
+    </div>
+    <div id="controls">
+        <input type="file" id="imageInput">
+        <button id="addText">Add Text</button>
+        <button id="startRecording">Start Recording</button>
+        <button id="stopRecording" disabled>Stop Recording</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.10/umd/ffmpeg.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+#canvas {
+    border: 1px solid #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.image, .text {
+    position: absolute;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Sample animation classes */
+.fade-in {
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
